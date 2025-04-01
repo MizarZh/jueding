@@ -11,8 +11,12 @@
 	function openEditor() {
 		// Get current page content from LocalStorage or empty string
 		currentPage = window.location.pathname;
-		const pages: Record<string, Card> = LocalStorage.get('pages') || defaultPages;
-		editorContent = typeof pages === 'string' ? pages : '';
+		let pages_raw: string | null = LocalStorage.get('pages');
+		if (pages_raw == null) {
+			pages_raw = JSON.stringify(defaultPages);
+			LocalStorage.set('pages', pages_raw);
+		}
+		editorContent = pages_raw;
 		showEditor = true;
 	}
 
@@ -100,13 +104,14 @@
 	}
 
 	.editor-textarea {
-		width: 100%;
+		width: calc(100% - 1rem);
 		flex: 1;
 		padding: 0.5rem;
 		border: 1px solid #e5e7eb;
 		border-radius: 0.25rem;
 		margin-bottom: 0.5rem;
 		min-height: 200px;
+		resize: vertical;
 	}
 
 	.editor-actions {

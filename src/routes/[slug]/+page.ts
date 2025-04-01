@@ -1,8 +1,6 @@
-import type { Card } from '$lib/types';
-import { defaultPages } from '$lib/types';
-import { LocalStorage } from '$lib';
+import { readPages } from '$lib/utils.js';
 
-const pages: Record<string, Card> = LocalStorage.get('pages') || defaultPages;
+const pages = readPages();
 
 export function load({ params }) {
 	return {
